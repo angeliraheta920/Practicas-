@@ -1,23 +1,51 @@
-import readline from "node:readline";
+import readline from 'node:readline';
 
-const ejer2 = readline.createInterface({
+const clasificador = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
 });
 
-ejer2.question("Ingrese la primera calificación (0-100): ", function (calif1) {
-    ejer2.question("Ingrese la segunda calificación (0-100): ", function (calif2) {
-        calif1 = parseFloat(calif1);
-        calif2 = parseFloat(calif2);
+clasificador.question("Ingrese el primer número (a): ", function(A){
+    let a = parseFloat(A);
 
-        if (calif1 > calif2) {
-            console.log("La calificación más alta es: " + calif1);
-        } else if (calif2 > calif1) {
-            console.log("La calificación más alta es: " + calif2);
-        } else {
-            console.log("Ambas calificaciones son iguales (" + calif1 + ")");
-        }
+    clasificador.question("Ingrese el segundo número (b): ", function(B){
+        let b = parseFloat(B);
 
-        ejer2.close();
+        clasificador.question("Ingrese el tercer número (c): ", function(C){
+            let c = parseFloat(C);
+
+            if (a === b && b === c) {
+                console.log("Los tres números son iguales");
+            } else if (a !== b && b !== c && a !== c) {
+                console.log("Los tres números son diferentes");
+            } else {
+                console.log("Hay dos números iguales");
+            }
+
+            let mayor = a;
+            let menor = a;
+
+            if (b > mayor) {
+                mayor = b;
+            }
+            if (c > mayor) {
+                mayor = c;
+            }
+            if (b < menor) {
+                menor = b;
+            }
+            if (c < menor) {
+                menor = c;
+            }
+
+            console.log("El número mayor es: " + mayor);
+            console.log("El número menor es: " + menor);
+
+            if (a < 0 || b < 0 || c < 0) {
+                console.log("Hay números negativos");
+            }
+
+            clasificador.close();
+        });
     });
 });
