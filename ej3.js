@@ -1,26 +1,42 @@
 import readline from "node:readline";
 
-const ejer3 = readline.createInterface({
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
-ejer3.question("Ingrese el monto de la compra: ", function (monto) {
-    monto = parseFloat(monto);
-    let porcentajeDescuento = 0;
+rl.question("¿Cuántas calificaciones desea ingresar?: ", function(cant){
+    const totalNotas = parseInt(cant);
+    let suma = 0;
+    let notaMasAlta = -Infinity;
+    let notaMasBaja = Infinity;
+    let contador = 1;
 
-    if (monto > 100) {
-        porcentajeDescuento = 0.15;
-    } else if (monto > 50) {
-        porcentajeDescuento = 0.10;
-    }
 
-    let descuento = monto * porcentajeDescuento;
-    let total = monto - descuento;
+    const pedirSiguiente = () => {
+        if (contador <= totalNotas) {
+            rl.question(`Ingrese la calificación ${contador}: `,function (not) {
+                const nota = parseFloat(not);
+                suma += nota;
 
-    console.log("Monto original: $" + monto.toFixed(2));
-    console.log("Descuento aplicado: $" + descuento.toFixed(2));
-    console.log("Total a pagar: $" + total.toFixed(2));
+                if (nota > notaMasAlta) notaMasAlta = nota;
+                if (nota < notaMasBaja) notaMasBaja = nota;
 
-    ejer3.close();
+                contador++;
+                pedirSiguiente(); 
+            });
+        } else {
+            
+            const promedio = suma / totalNotas;
+
+            console.log("\nRESULTADO");
+            console.log(`Promedio final: ${promedio.toFixed(2)}`);
+            console.log(`Calificación más alta: ${notaMasAlta}`);
+            console.log(`Calificación más baja: ${notaMasBaja}`);
+
+            rl.close();
+        }
+    };
+
+    pedirSiguiente();
 });
