@@ -1,20 +1,64 @@
 import readline from "node:readline";
 
-const ejer1 = readline.createInterface({
+const califi = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
 });
 
-ejer1.question("Ingrese un número: ", function (numero) {
-    numero = parseFloat(numero);
 
-    if (numero > 0) {
-        console.log("El número es positivo");
-    } else if (numero < 0) {
-        console.log("El número es negativo");
+
+function obtenerLetra(calificacion) {
+    if (calificacion >= 90) {
+        return "A";
+    } else if (calificacion >= 80) {
+        return "B";
+    } else if (calificacion >= 70) {
+        return "C";
+    } else if (calificacion >= 60) {
+        return "D";
     } else {
-        console.log("El número es cero");
+        return "F";
     }
+}
 
-    ejer1.close();
+
+function calcularPromedio(calificaciones) {
+    let suma = 0;
+    for (let i = 0; i < calificaciones.length; i++) {
+        suma += calificaciones[i];
+    }
+    return suma / calificaciones.length;
+}
+
+califi.question("¿Cuántas calificaciones desea ingresar?: ", (dato) => {
+    const totalNotas = parseInt(dato);
+    const calificaciones = [];
+    let contador = 1;
+
+    const pedirCalificacion = () => {
+        if (contador <= totalNotas) {
+            tienda.question(`Ingrese la calificación ${contador} (0-100): `, (notaStr) => {
+                calificaciones.push(parseFloat(notaStr));
+                contador++;
+                pedirCalificacion();
+            });
+        } else {
+            console.log("\n--- REPORTE DE CALIFICACIONES ---");
+
+           
+            for (let i = 0; i < totalNotas; i++) {
+                const notaActual = calificaciones[i];
+                console.log(`Calificación ${i + 1}: ${notaActual} -> Letra: ${obtenerLetra(notaActual)}`);
+            }
+
+            const promedioFinal = calcularPromedio(calificaciones);
+            
+            console.log(`\nPromedio final: ${promedioFinal.toFixed(2)}`);
+            console.log(`Letra del promedio: ${obtenerLetra(promedioFinal)}`);
+
+            tienda.close();
+        }
+    };
+
+    pedirCalificacion();
 });

@@ -1,26 +1,58 @@
 import readline from "node:readline";
 
-const ejer3 = readline.createInterface({
+const voca = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
 });
 
-ejer3.question("Ingrese el monto de la compra: ", function (monto) {
-    monto = parseFloat(monto);
-    let porcentajeDescuento = 0;
+function contarVocales(texto) {
+    let contador = 0;
+    const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+    for (let i = 0; i < texto.length; i++) {
+        if (vocales.includes(texto[i])) {
+            contador++;
+        }
+    }
+    return contador;
+}
 
-    if (monto > 100) {
-        porcentajeDescuento = 0.15;
-    } else if (monto > 50) {
-        porcentajeDescuento = 0.10;
+function invertirCadena(texto) {
+    let invertida = "";
+    for (let i = texto.length - 1; i >= 0; i--) {
+        invertida += texto[i];
+    }
+    return invertida;
+}
+
+
+
+function esPalindromo(texto) {
+   
+    let limpio = "";
+    for (let i = 0; i < texto.length; i++) {
+        if (texto[i] !== " ") {
+            limpio += texto[i].toLowerCase();
+        }
+    }
+    
+    let alReves = "";
+    for (let i = limpio.length - 1; i >= 0; i--) {
+        alReves += limpio[i];
     }
 
-    let descuento = monto * porcentajeDescuento;
-    let total = monto - descuento;
+    return limpio === alReves;
+}
 
-    console.log("Monto original: $" + monto.toFixed(2));
-    console.log("Descuento aplicado: $" + descuento.toFixed(2));
-    console.log("Total a pagar: $" + total.toFixed(2));
 
-    ejer3.close();
+voca.question("Ingrese una palabra o frase: ", (frase) => {
+    const totalVocales = contarVocales(frase);
+    const cadenaInvertida = invertirCadena(frase);
+    const palindromo = esPalindromo(frase);
+
+    console.log("\n--- RESULTADOS ---");
+    console.log(`Cantidad de vocales: ${totalVocales}`);
+    console.log(`Cadena invertida: ${cadenaInvertida}`);
+    console.log(`¿Es palíndromo?: ${palindromo ? "Sí" : "No"}`);
+
+    tienda.close();
 });
